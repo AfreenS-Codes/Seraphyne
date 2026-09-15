@@ -1,0 +1,59 @@
+{
+  "id": "hf-001",
+  "domain": "Cardiology",
+  "title": "71-year-old man with progressive breathlessness",
+  "difficulty": "intermediate",
+  "demographics": { "age": 71, "sex": "male", "occupation": "Retired" },
+  "presenting_complaint": "Progressive breathlessness over 5 days, now breathless at rest, with leg swelling and orthopnea.",
+  "vitals": { "heart_rate": 104, "bp_systolic": 152, "bp_diastolic": 94, "respiratory_rate": 26, "spo2": 90, "temperature_c": 36.9 },
+  "history_items": [
+    { "id": "h_orthopnea", "question": "Ask about orthopnea/PND", "finding": "Sleeping on 3 pillows now, woke gasping for air last night.", "critical": true, "evidence_basis": "Orthopnea/PND are classic decompensated heart-failure symptoms." },
+    { "id": "h_swelling", "question": "Ask about leg swelling", "finding": "Bilateral ankle swelling, worse over the past week.", "critical": true, "evidence_basis": "Peripheral edema is a congestion marker in heart failure." },
+    { "id": "h_prior_mi", "question": "Ask about prior cardiac history", "finding": "Had an MI 4 years ago, known reduced ejection fraction.", "critical": true, "evidence_basis": "Prior MI/known reduced EF strongly raises pretest probability of decompensated heart failure." },
+    { "id": "h_compliance", "question": "Ask about medication compliance and diet", "finding": "Ran out of furosemide 10 days ago; has been eating more salty food.", "critical": false, "evidence_basis": "Common precipitants of acute decompensation." }
+  ],
+  "examination_items": [
+    { "id": "e_jvp", "maneuver": "Assess JVP", "finding": "Raised JVP to the angle of the jaw.", "critical": true, "evidence_basis": "Raised JVP is a core sign of volume overload." },
+    { "id": "e_lungs", "maneuver": "Auscultate lungs", "finding": "Bilateral basal crackles.", "critical": true, "evidence_basis": "Crackles indicate pulmonary congestion." },
+    { "id": "e_edema", "maneuver": "Examine for peripheral edema", "finding": "Pitting edema to mid-shin bilaterally.", "critical": false }
+  ],
+  "investigations": [
+    { "id": "i_bnp", "name": "BNP", "category": "Lab", "cost_time_minutes": 30, "result_summary": "BNP 890 pg/mL (elevated).", "result_detail": "Markedly elevated, consistent with decompensated heart failure.", "discriminating": true, "evidence_basis": "BNP is a standard discriminator between cardiac and non-cardiac causes of dyspnea.", "likelihood_ratios": { "decompensated_hf": 6.0, "copd_exacerbation": 0.3, "pneumonia": 0.4 } },
+    { "id": "i_cxr", "name": "Chest X-ray", "category": "Imaging", "cost_time_minutes": 15, "result_summary": "Cardiomegaly, bilateral perihilar haziness, small effusions.", "result_detail": "Classic decompensated heart failure picture.", "discriminating": true, "evidence_basis": "Chest X-ray findings support the clinical diagnosis of congestion.", "likelihood_ratios": { "decompensated_hf": 5.0, "copd_exacerbation": 0.4, "pneumonia": 0.6 } },
+    { "id": "i_ecg", "name": "12-lead ECG", "category": "ECG", "cost_time_minutes": 5, "result_summary": "Old Q waves in the anterior leads, no acute ST changes.", "result_detail": "Evidence of prior infarction, no new ischemia.", "discriminating": false, "evidence_basis": "Useful background context but not discriminating for this presentation.", "likelihood_ratios": { "decompensated_hf": 1.0, "copd_exacerbation": 1.0, "pneumonia": 1.0 } }
+  ],
+  "differentials": [
+    { "id": "decompensated_hf", "name": "Acute decompensated heart failure", "prior_probability": 0.55, "is_ground_truth": true },
+    { "id": "copd_exacerbation", "name": "COPD exacerbation", "prior_probability": 0.25, "is_ground_truth": false },
+    { "id": "pneumonia", "name": "Community-acquired pneumonia", "prior_probability": 0.2, "is_ground_truth": false }
+  ],
+  "critical_actions": ["h_orthopnea", "h_prior_mi", "e_jvp", "e_lungs", "i_bnp"],
+  "clinical_decisions": [
+    { "id": "d_hf_pathway", "label": "Treat as decompensated heart failure: IV diuretics, oxygen, fluid restriction, daily weights", "is_appropriate": true, "rationale": "Matches the congestive picture (raised JVP, crackles, edema, elevated BNP, known reduced EF)." },
+    { "id": "d_treat_copd", "label": "Treat empirically as COPD exacerbation with bronchodilators and steroids", "is_appropriate": false, "rationale": "Ignores the congestive picture and history of reduced EF; would not address the underlying fluid overload." }
+  ],
+  "outcome_branches": [
+    { "id": "o_favorable", "condition": "decision == d_hf_pathway", "requires_decision_id": "d_hf_pathway", "title": "Appropriate decongestion", "narrative": "The patient responds well to IV furosemide with a 3L net negative fluid balance over 48 hours, breathlessness resolves, and he is discharged on an optimized heart-failure regimen with follow-up.", "favorable": true, "educational_explanation": "Recognizing the congestive pattern (raised JVP, crackles, edema, elevated BNP) in a patient with known reduced EF and treating the fluid overload directly is the correct approach." },
+    { "id": "o_missed", "condition": "decision == d_treat_copd", "requires_decision_id": "d_treat_copd", "title": "Delayed decongestion", "narrative": "Bronchodilators provide no benefit; the patient's oxygen saturation continues to fall overnight before the team reconsiders and starts diuretics 12 hours later than they could have.", "favorable": false, "educational_explanation": "Anchoring on a respiratory cause despite strong cardiac congestion signs delayed the correct, effective treatment." }
+  ],
+  "counterfactual_branches": [
+    { "id": "cf_skip_bnp", "alternative_to_action_id": "i_bnp", "alternative_action_label": "What if you had skipped BNP and gone straight on clinical impression?", "alternative_evidence": "The exam findings alone (raised JVP, crackles, edema) already strongly suggest decompensated HF; BNP adds confirmatory confidence particularly useful if the picture were more mixed (e.g. co-existing COPD).", "probability_effect": "Modest reduction in diagnostic certainty, more relevant in a less classic presentation than this one.", "potential_outcome": "Likely the same correct management pathway here, but with less objective documentation to support it.", "reasoning_lesson": "In a classic presentation, exam findings alone can be sufficient, but objective markers strengthen the case, especially with mixed cardiorespiratory pictures." }
+  ],
+  "reasoning_error_catalog": [
+    { "id": "anchoring", "label": "Anchoring", "trigger": "COPD chosen as leading differential despite raised JVP, crackles, edema, and elevated BNP all being available.", "educational_note": "Fixating on a respiratory cause despite strong disconfirming cardiac signs." },
+    { "id": "ignoring_red_flags", "label": "Ignoring red flags", "trigger": "h_prior_mi or e_jvp not checked before the final decision.", "educational_note": "Missing the background history/exam findings that most strongly point to a cardiac cause." }
+  ],
+  "ml_feature_hint": {
+    "note": "See docs/DATASETS.md for the dataset's empirical (non-standard) cp/exang encoding used here.",
+    "age": 71, "sex": 1, "cp": 2, "trestbps": 152, "chol": 210,
+    "fbs": 0, "restecg": 1, "thalach": 118, "exang": 0, "oldpeak": 1.8,
+    "slope": 1, "ca": 2, "thal": 2
+  },
+  "metadata": {
+    "source_type": "author-drafted",
+    "reviewer_status": "author-drafted, pending clinician review",
+    "reviewed_by": null,
+    "last_reviewed": null,
+    "references": ["Standard MBBS-level acute decompensated heart failure teaching pathway (congestion signs, BNP, CXR)."]
+  }
+}

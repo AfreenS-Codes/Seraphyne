@@ -1,0 +1,212 @@
+{
+  "id": "acs-001",
+  "domain": "Cardiology",
+  "title": "58-year-old man with acute central chest pain",
+  "difficulty": "intermediate",
+  "demographics": { "age": 58, "sex": "male", "occupation": "Taxi driver" },
+  "presenting_complaint": "Sudden onset central chest heaviness for the last 90 minutes, radiating to the left arm, associated with sweating and nausea.",
+  "vitals": {
+    "heart_rate": 96,
+    "bp_systolic": 148,
+    "bp_diastolic": 92,
+    "respiratory_rate": 20,
+    "spo2": 96,
+    "temperature_c": 37.1
+  },
+  "history_items": [
+    { "id": "h_onset", "question": "Ask about onset and character of the pain", "finding": "Sudden onset, crushing/heaviness quality, constant, not positional, not pleuritic.", "critical": true, "evidence_basis": "Classic anginal-equivalent description taught for ACS recognition." },
+    { "id": "h_radiation", "question": "Ask about radiation", "finding": "Radiates to the left arm and jaw.", "critical": true, "evidence_basis": "Radiation to arm/jaw increases pretest probability of ACS." },
+    { "id": "h_associated", "question": "Ask about associated symptoms", "finding": "Diaphoresis and nausea, no vomiting.", "critical": true, "evidence_basis": "Autonomic symptoms are a recognized ACS red flag cluster." },
+    { "id": "h_risk_smoking", "question": "Ask about smoking history", "finding": "20 pack-year smoker, still smoking.", "critical": false, "evidence_basis": "Standard modifiable cardiovascular risk factor." },
+    { "id": "h_risk_diabetes", "question": "Ask about diabetes", "finding": "Known type 2 diabetes mellitus, on metformin.", "critical": false, "evidence_basis": "Diabetes raises coronary risk and may blunt pain presentation." },
+    { "id": "h_risk_htn", "question": "Ask about hypertension", "finding": "Known hypertension, on amlodipine, poorly controlled.", "critical": false, "evidence_basis": "Standard modifiable cardiovascular risk factor." },
+    { "id": "h_risk_family", "question": "Ask about family history", "finding": "Father had an MI at age 55.", "critical": false, "evidence_basis": "Premature family history of CAD is a recognized non-modifiable risk factor." },
+    { "id": "h_prior_episodes", "question": "Ask about prior similar episodes", "finding": "No prior episodes of chest pain; first time.", "critical": false },
+    { "id": "h_exertion", "question": "Ask if pain is related to exertion", "finding": "Started at rest while watching television, not exertional.", "critical": true, "evidence_basis": "Rest pain is a higher-risk pattern than pure exertional angina." },
+    { "id": "h_alt_gi", "question": "Ask about reflux/GI symptoms as an alternative cause", "finding": "No history of reflux, denies recent heavy meal.", "critical": false, "evidence_basis": "Screening for a benign alternative (GERD) that could cause anchoring away from ACS if positive." }
+  ],
+  "examination_items": [
+    { "id": "e_general", "maneuver": "General inspection", "finding": "Diaphoretic, anxious-looking, in mild distress.", "critical": false },
+    { "id": "e_cardio", "maneuver": "Cardiovascular examination", "finding": "Heart sounds normal, no murmurs, no S3/S4, no pericardial rub.", "critical": false },
+    { "id": "e_resp", "maneuver": "Respiratory examination", "finding": "Chest clear, no crackles, equal air entry.", "critical": false, "evidence_basis": "Absence of crackles argues against acute pulmonary edema/decompensated heart failure at presentation." },
+    { "id": "e_pulses", "maneuver": "Peripheral pulses and both-arm BP", "finding": "Pulses symmetric, both-arm BP equal (148/92 both sides).", "critical": true, "evidence_basis": "Symmetric pulses and equal both-arm BP argue against aortic dissection, an important differential to actively exclude." },
+    { "id": "e_calves", "maneuver": "Calf examination", "finding": "No calf swelling or tenderness.", "critical": false, "evidence_basis": "Screens against a DVT/PE-related presentation." },
+    { "id": "e_chest_wall", "maneuver": "Chest wall palpation", "finding": "No reproducible chest wall tenderness.", "critical": false, "evidence_basis": "Reproducible tenderness would suggest a musculoskeletal cause instead." }
+  ],
+  "investigations": [
+    {
+      "id": "i_ecg",
+      "name": "12-lead ECG",
+      "category": "ECG",
+      "cost_time_minutes": 5,
+      "result_summary": "ST depression 1.5mm in V4-V6, T-wave inversion in the lateral leads.",
+      "result_detail": "Sinus rhythm, rate 96. New ST depression \u22651mm in leads V4-V6 with T-wave inversion, no ST elevation, no Q waves. No reciprocal changes suggestive of STEMI.",
+      "discriminating": true,
+      "evidence_basis": "ECG is the first-line, time-critical investigation in suspected ACS per standard teaching pathways.",
+      "likelihood_ratios": { "nstemi": 4.5, "stable_angina": 1.2, "gerd": 0.15, "aortic_dissection": 0.4 }
+    },
+    {
+      "id": "i_troponin_0h",
+      "name": "Troponin I (0h)",
+      "category": "Lab",
+      "cost_time_minutes": 30,
+      "result_summary": "Troponin I 340 ng/L (elevated; local 99th percentile URL is 26 ng/L).",
+      "result_detail": "Markedly elevated troponin I, well above the 99th percentile upper reference limit, consistent with acute myocardial injury.",
+      "discriminating": true,
+      "evidence_basis": "Troponin above the 99th percentile URL with a rise/fall pattern is central to the Fourth Universal Definition of Myocardial Infarction (Thygesen et al., 2018).",
+      "likelihood_ratios": { "nstemi": 8.0, "stable_angina": 0.3, "gerd": 0.1, "aortic_dissection": 0.6 }
+    },
+    {
+      "id": "i_troponin_3h",
+      "name": "Troponin I (3h repeat)",
+      "category": "Lab",
+      "cost_time_minutes": 30,
+      "result_summary": "Troponin I 610 ng/L (rising).",
+      "result_detail": "Significant rise from the 0h value, confirming a true dynamic troponin rise rather than chronic elevation.",
+      "discriminating": true,
+      "evidence_basis": "A rise/fall pattern (not a single value) is required to confidently diagnose acute MI rather than chronic troponin elevation.",
+      "likelihood_ratios": { "nstemi": 3.0, "stable_angina": 0.4, "gerd": 0.2, "aortic_dissection": 0.7 }
+    },
+    {
+      "id": "i_cxr",
+      "name": "Chest X-ray",
+      "category": "Imaging",
+      "cost_time_minutes": 15,
+      "result_summary": "Normal cardiac silhouette, no widened mediastinum, clear lung fields.",
+      "result_detail": "No mediastinal widening (argues against aortic dissection), no pulmonary edema, no pneumothorax.",
+      "discriminating": true,
+      "evidence_basis": "Useful to help exclude aortic dissection and pneumothorax as differentials.",
+      "likelihood_ratios": { "nstemi": 1.0, "stable_angina": 1.0, "gerd": 1.0, "aortic_dissection": 0.2 }
+    },
+    {
+      "id": "i_d_dimer",
+      "name": "D-dimer",
+      "category": "Lab",
+      "cost_time_minutes": 30,
+      "result_summary": "Mildly elevated D-dimer 620 ng/mL FEU.",
+      "result_detail": "Non-specifically elevated; low pretest probability for PE given the clinical picture, so this is a low-value, non-discriminating test to order first-line here.",
+      "discriminating": false,
+      "evidence_basis": "Included to teach appropriate investigation prioritization \u2014 ordering low-yield tests before ECG/troponin is a reasoning-error trigger in this case.",
+      "likelihood_ratios": { "nstemi": 1.0, "stable_angina": 1.0, "gerd": 1.0, "aortic_dissection": 1.1 }
+    },
+    {
+      "id": "i_echo",
+      "name": "Bedside echocardiogram",
+      "category": "Imaging",
+      "cost_time_minutes": 20,
+      "result_summary": "Regional wall motion abnormality in the lateral wall, LVEF ~48%.",
+      "result_detail": "Hypokinesia of the lateral wall corresponding to the ECG changes, mildly reduced ejection fraction, no pericardial effusion, no aortic root dilation.",
+      "discriminating": true,
+      "evidence_basis": "Regional wall motion abnormality corroborates ischemia in the territory suggested by the ECG.",
+      "likelihood_ratios": { "nstemi": 2.5, "stable_angina": 0.6, "gerd": 0.2, "aortic_dissection": 0.3 }
+    }
+  ],
+  "differentials": [
+    { "id": "nstemi", "name": "Non-ST-elevation myocardial infarction (NSTEMI)", "prior_probability": 0.35, "is_ground_truth": true },
+    { "id": "stable_angina", "name": "Unstable/stable angina without infarction", "prior_probability": 0.25, "is_ground_truth": false },
+    { "id": "gerd", "name": "Gastro-oesophageal reflux disease", "prior_probability": 0.20, "is_ground_truth": false },
+    { "id": "aortic_dissection", "name": "Acute aortic dissection", "prior_probability": 0.10, "is_ground_truth": false },
+    { "id": "musculoskeletal", "name": "Musculoskeletal chest pain", "prior_probability": 0.10, "is_ground_truth": false }
+  ],
+  "critical_actions": ["h_onset", "h_radiation", "h_associated", "h_exertion", "e_pulses", "i_ecg", "i_troponin_0h"],
+  "clinical_decisions": [
+    { "id": "d_acs_pathway", "label": "Treat as ACS: aspirin, start ACS pathway, cardiology referral, serial troponins", "is_appropriate": true, "rationale": "Correct given rest pain, ischemic ECG changes, and a markedly elevated, rising troponin \u2014 meets the Fourth Universal Definition of MI." },
+    { "id": "d_discharge_gerd", "label": "Reassure and discharge with a PPI for presumed reflux", "is_appropriate": false, "rationale": "Unsafe: ignores ischemic ECG changes and markedly elevated troponin. This is a premature-closure/anchoring error." },
+    { "id": "d_observe_only", "label": "Admit for observation only, defer troponin and ECG interpretation to the morning ward round", "is_appropriate": false, "rationale": "Unsafe delay: ACS is time-critical; deferring interpretation of already-available red-flag results is a failure-to-act-on-evidence error." },
+    { "id": "d_ct_aortogram_first", "label": "Proceed straight to CT aortogram before any ECG/troponin, treating this primarily as suspected dissection", "is_appropriate": false, "rationale": "Poor investigation prioritization: exam findings (equal pulses/BP, no radiating tearing pain) make dissection much less likely than ACS; ECG/troponin should come first." }
+  ],
+  "outcome_branches": [
+    {
+      "id": "o_favorable",
+      "condition": "decision == d_acs_pathway",
+      "requires_decision_id": "d_acs_pathway",
+      "title": "Appropriate recognition and management",
+      "narrative": "The patient is started on the ACS pathway. Cardiology confirms NSTEMI on the rising troponin and ischemic ECG changes. He undergoes coronary angiography the next day, revealing a significant lesion in the circumflex artery, successfully stented. He is discharged on dual antiplatelet therapy, a statin, and a beta blocker with cardiology follow-up.",
+      "favorable": true,
+      "educational_explanation": "Recognizing rest pain with ischemic ECG changes and a rising troponin above the 99th percentile, and acting on the ACS pathway promptly, is the textbook-correct response and reflects good time-critical reasoning."
+    },
+    {
+      "id": "o_delayed",
+      "condition": "decision == d_observe_only",
+      "requires_decision_id": "d_observe_only",
+      "title": "Delayed recognition",
+      "narrative": "Interpretation of the ECG and troponin is deferred overnight. The patient develops recurrent chest pain with new inferolateral ST depression at 4am. He is urgently escalated and taken for angiography, but the delay meant a larger territory of myocardium was put at risk before treatment began.",
+      "favorable": false,
+      "educational_explanation": "ACS is time-critical. Deferring interpretation of already-available red-flag investigation results, rather than acting on them promptly, is a 'failure to act on available evidence' reasoning error with real consequences in this branch."
+    },
+    {
+      "id": "o_missed",
+      "condition": "decision == d_discharge_gerd",
+      "requires_decision_id": "d_discharge_gerd",
+      "title": "Missed diagnosis",
+      "narrative": "The patient is discharged home with reflux advice. He re-presents six hours later with worsening chest pain and is found to have progressed to a larger infarct requiring emergency angioplasty.",
+      "favorable": false,
+      "educational_explanation": "This branch illustrates premature closure/anchoring on a benign diagnosis (GERD) despite disconfirming evidence (ischemic ECG changes, markedly elevated troponin) \u2014 a classic and dangerous reasoning error."
+    },
+    {
+      "id": "o_misdirected",
+      "condition": "decision == d_ct_aortogram_first",
+      "requires_decision_id": "d_ct_aortogram_first",
+      "title": "Misdirected workup",
+      "narrative": "Time is spent arranging a CT aortogram, which is normal. By the time the ECG and troponin are finally reviewed, 90 minutes have been lost that could have been used to start ACS treatment.",
+      "favorable": false,
+      "educational_explanation": "This branch illustrates poor investigation prioritization: exam findings already made dissection unlikely, so pursuing it first, ahead of the fast, cheap, high-yield ECG and troponin, wasted critical time."
+    }
+  ],
+  "counterfactual_branches": [
+    {
+      "id": "cf_ddimer_first",
+      "alternative_to_action_id": "i_ecg",
+      "alternative_action_label": "What if you had ordered D-dimer before the ECG/troponin?",
+      "alternative_evidence": "D-dimer is mildly elevated and non-specific here \u2014 it neither confirms nor excludes ACS and would have delayed the discriminating tests.",
+      "probability_effect": "No meaningful shift in NSTEMI probability; wastes time that ECG/troponin would have used more effectively.",
+      "potential_outcome": "Diagnosis delayed by roughly 30 minutes with no diagnostic benefit.",
+      "reasoning_lesson": "Prioritize high-yield, discriminating investigations (ECG, troponin) over low-yield ones in a time-critical presentation."
+    },
+    {
+      "id": "cf_no_repeat_troponin",
+      "alternative_to_action_id": "i_troponin_3h",
+      "alternative_action_label": "What if you had acted on a single troponin value without a repeat?",
+      "alternative_evidence": "A single elevated troponin can reflect causes other than acute MI (e.g. chronic kidney disease, chronic structural heart disease); the rise from 340 to 610 ng/L over 3 hours is what confirms an acute, dynamic process.",
+      "probability_effect": "Confidence in acute MI vs. chronic troponin elevation would be substantially lower without the repeat.",
+      "potential_outcome": "Correct pathway might still be chosen given the ECG, but the confidence and evidence base for the decision would be weaker and harder to defend on a ward round.",
+      "reasoning_lesson": "A rise/fall pattern, not a single value, is what the Fourth Universal Definition of MI actually requires for diagnosing acute infarction."
+    },
+    {
+      "id": "cf_skip_pulses_exam",
+      "alternative_to_action_id": "e_pulses",
+      "alternative_action_label": "What if you had skipped checking peripheral pulses and both-arm blood pressure?",
+      "alternative_evidence": "Without this exam finding, aortic dissection (a critical differential with very different management \u2014 anticoagulation would be dangerous) is not actively excluded on clinical grounds.",
+      "probability_effect": "Aortic dissection probability would remain artificially higher in the differential list, potentially prompting an unnecessary CT aortogram or, worse, inappropriate anticoagulation before dissection is excluded.",
+      "potential_outcome": "Risk of either a dangerous management error (anticoagulating an unrecognized dissection) or a time-costly unnecessary imaging detour.",
+      "reasoning_lesson": "A focused, hypothesis-driven examination (checking for signs that specifically argue for/against dangerous differentials) is as important as the investigations you order."
+    }
+  ],
+  "reasoning_error_catalog": [
+    { "id": "premature_closure", "label": "Premature closure", "trigger": "Final decision selected before ordering both ECG and troponin, or GERD-discharge decision chosen despite ischemic ECG/troponin evidence being available.", "educational_note": "Settling on a diagnosis before gathering/considering disconfirming evidence." },
+    { "id": "anchoring", "label": "Anchoring", "trigger": "GERD or musculoskeletal differential kept as leading diagnosis after ischemic ECG and elevated troponin results are available.", "educational_note": "Over-weighting an initial impression and under-weighting new disconfirming evidence." },
+    { "id": "confirmation_bias", "label": "Confirmation bias", "trigger": "Only history/exam items that support the student's initially-favored differential are selected, ignoring the red-flag items (h_exertion, e_pulses).", "educational_note": "Selectively seeking evidence that supports a pre-existing hypothesis." },
+    { "id": "failure_alternatives", "label": "Failure to consider alternatives", "trigger": "Fewer than 2 differentials selected before the final decision.", "educational_note": "Not maintaining a broad-enough differential before committing to a diagnosis." },
+    { "id": "evidence_misinterpretation", "label": "Evidence misinterpretation", "trigger": "NSTEMI not selected as leading differential despite both i_ecg and i_troponin_0h having been reviewed.", "educational_note": "Reviewing the correct evidence but drawing the wrong conclusion from it." },
+    { "id": "ignoring_red_flags", "label": "Ignoring red flags", "trigger": "h_exertion or e_pulses not asked/examined before the final decision.", "educational_note": "Failing to actively seek information that would change management (rest pain pattern; pulse symmetry for dissection)." },
+    { "id": "poor_investigation_selection", "label": "Poor investigation selection", "trigger": "i_d_dimer ordered before both i_ecg and i_troponin_0h.", "educational_note": "Ordering low-yield tests ahead of fast, discriminating, time-critical ones." },
+    { "id": "failure_to_update", "label": "Failure to update beliefs", "trigger": "d_discharge_gerd or d_observe_only chosen despite i_troponin_0h and i_ecg both having discriminating, ischemia-positive results.", "educational_note": "Not revising the working diagnosis/plan when new evidence should change it." },
+    { "id": "incorrect_prioritization", "label": "Incorrect prioritization", "trigger": "d_ct_aortogram_first chosen without first checking e_pulses.", "educational_note": "Pursuing a lower-probability, higher-cost pathway before a cheap, fast, discriminating check that would have informed the decision." }
+  ],
+  "ml_feature_hint": {
+    "note": "Deterministic mapping of this case's clinical picture onto the UCI Heart Disease feature schema, used only to produce an illustrative, case-consistent ML teaching prediction (see ml/README.md). This is a mapping of the authored case, not a real patient record. Values for cp/exang/thal/ca are chosen to match this specific dataset mirror's EMPIRICAL high-risk encoding (verified in docs/DATASETS.md, section 1) rather than the standard clinical convention, because this mirror's cp/exang columns are documented to correlate with the target label in the reverse of the usual clinical direction.",
+    "age": 58, "sex": 1, "cp": 2, "trestbps": 148, "chol": 246,
+    "fbs": 1, "restecg": 0, "thalach": 132, "exang": 0, "oldpeak": 2.1,
+    "slope": 0, "ca": 0, "thal": 2
+  },
+  "metadata": {
+    "source_type": "author-drafted",
+    "reviewer_status": "author-drafted, pending clinician review",
+    "reviewed_by": null,
+    "last_reviewed": null,
+    "references": [
+      "Thygesen K, et al. Fourth Universal Definition of Myocardial Infarction (2018). European Heart Journal.",
+      "Standard MBBS/USMLE-level ACS teaching pathway (history, ECG, serial troponin, risk stratification)."
+    ]
+  }
+}

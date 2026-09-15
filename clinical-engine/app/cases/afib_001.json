@@ -1,0 +1,58 @@
+{
+  "id": "afib-001",
+  "domain": "Cardiology",
+  "title": "67-year-old woman with palpitations and dizziness",
+  "difficulty": "intermediate",
+  "demographics": { "age": 67, "sex": "female", "occupation": "Retired" },
+  "presenting_complaint": "Sudden onset palpitations and lightheadedness for 2 hours, feels her heart 'racing irregularly'.",
+  "vitals": { "heart_rate": 148, "bp_systolic": 104, "bp_diastolic": 68, "respiratory_rate": 20, "spo2": 96, "temperature_c": 37.0 },
+  "history_items": [
+    { "id": "h_onset", "question": "Ask about onset and character", "finding": "Sudden onset, irregular racing sensation, no clear trigger.", "critical": true },
+    { "id": "h_prior_episodes", "question": "Ask about prior similar episodes", "finding": "Two similar shorter episodes in the past year that self-resolved.", "critical": false, "evidence_basis": "Paroxysmal pattern history raises suspicion for atrial fibrillation." },
+    { "id": "h_thyroid", "question": "Ask about thyroid symptoms", "finding": "No heat intolerance, tremor, or weight loss.", "critical": false, "evidence_basis": "Screens for hyperthyroidism as a reversible AF trigger." },
+    { "id": "h_alcohol", "question": "Ask about alcohol intake", "finding": "Had a wedding celebration with heavy alcohol intake yesterday.", "critical": false, "evidence_basis": "'Holiday heart syndrome' — alcohol is a recognized AF trigger." }
+  ],
+  "examination_items": [
+    { "id": "e_pulse", "maneuver": "Palpate pulse", "finding": "Irregularly irregular pulse, rate ~148.", "critical": true, "evidence_basis": "Irregularly irregular pulse is the classic bedside sign of atrial fibrillation." },
+    { "id": "e_cardio", "maneuver": "Cardiovascular examination", "finding": "No murmurs, no signs of heart failure.", "critical": false }
+  ],
+  "investigations": [
+    { "id": "i_ecg", "name": "12-lead ECG", "category": "ECG", "cost_time_minutes": 5, "result_summary": "Atrial fibrillation with rapid ventricular response, rate 148, no P waves, irregularly irregular R-R intervals.", "result_detail": "Classic AF pattern, no acute ischemic changes.", "discriminating": true, "evidence_basis": "ECG is diagnostic for atrial fibrillation.", "likelihood_ratios": { "afib_rvr": 10.0, "svt": 0.2, "sinus_tachycardia": 0.1 } },
+    { "id": "i_tsh", "name": "TSH", "category": "Lab", "cost_time_minutes": 30, "result_summary": "TSH normal.", "result_detail": "Excludes hyperthyroidism as the precipitant.", "discriminating": false, "evidence_basis": "Standard reversible-cause screen in new AF." },
+    { "id": "i_electrolytes", "name": "Electrolytes (including magnesium)", "category": "Lab", "cost_time_minutes": 20, "result_summary": "Mildly low magnesium, otherwise normal.", "result_detail": "Mild hypomagnesemia, consistent with recent heavy alcohol intake.", "discriminating": false }
+  ],
+  "differentials": [
+    { "id": "afib_rvr", "name": "Atrial fibrillation with rapid ventricular response", "prior_probability": 0.6, "is_ground_truth": true },
+    { "id": "svt", "name": "Supraventricular tachycardia (regular)", "prior_probability": 0.2, "is_ground_truth": false },
+    { "id": "sinus_tachycardia", "name": "Sinus tachycardia", "prior_probability": 0.2, "is_ground_truth": false }
+  ],
+  "critical_actions": ["h_onset", "e_pulse", "i_ecg"],
+  "clinical_decisions": [
+    { "id": "d_rate_control", "label": "Rate control (beta blocker), anticoagulation risk assessment, correct magnesium", "is_appropriate": true, "rationale": "Standard first-line approach for new AF with RVR in a hemodynamically stable patient." },
+    { "id": "d_immediate_cardioversion_no_workup", "label": "Proceed straight to electrical cardioversion without checking duration/anticoagulation status", "is_appropriate": false, "rationale": "Unsafe: cardioverting AF of uncertain duration without addressing stroke-risk/anticoagulation first risks embolic stroke." }
+  ],
+  "outcome_branches": [
+    { "id": "o_favorable", "condition": "decision == d_rate_control", "requires_decision_id": "d_rate_control", "title": "Appropriate initial management", "narrative": "Rate control is achieved with a beta blocker, magnesium is corrected, and a formal anticoagulation and rhythm-control plan is arranged with cardiology follow-up.", "favorable": true, "educational_explanation": "Rate control plus a structured stroke-risk assessment is the correct first step for new, hemodynamically stable AF with RVR." },
+    { "id": "o_risky", "condition": "decision == d_immediate_cardioversion_no_workup", "requires_decision_id": "d_immediate_cardioversion_no_workup", "title": "Unsafe shortcut", "narrative": "Cardioversion is attempted without addressing anticoagulation; fortunately no embolic event occurs this time, but the team is flagged for a safety review.", "favorable": false, "educational_explanation": "Skipping the duration/anticoagulation assessment before cardioversion is a recognized, dangerous shortcut — even when it doesn't cause harm on a given occasion, it's not a safe process." }
+  ],
+  "counterfactual_branches": [
+    { "id": "cf_skip_ecg", "alternative_to_action_id": "i_ecg", "alternative_action_label": "What if you had treated based on pulse palpation alone, without an ECG?", "alternative_evidence": "An irregularly irregular pulse is suggestive but not fully diagnostic — the ECG confirms AF and rules out other irregular rhythms.", "probability_effect": "Meaningful loss of diagnostic certainty; could not confidently exclude another irregular tachycardia.", "potential_outcome": "Risk of treating the wrong rhythm.", "reasoning_lesson": "A bedside sign should prompt, not replace, the confirmatory ECG in tachyarrhythmias." }
+  ],
+  "reasoning_error_catalog": [
+    { "id": "poor_investigation_selection", "label": "Poor investigation selection", "trigger": "Decision made before i_ecg reviewed.", "educational_note": "ECG is required to confirm AF before committing to a rhythm-control strategy." },
+    { "id": "ignoring_red_flags", "label": "Ignoring red flags", "trigger": "d_immediate_cardioversion_no_workup chosen.", "educational_note": "Skipping stroke-risk/anticoagulation assessment before cardioversion ignores a critical safety step." }
+  ],
+  "ml_feature_hint": {
+    "note": "See docs/DATASETS.md for the dataset's empirical (non-standard) cp/exang encoding used here.",
+    "age": 67, "sex": 0, "cp": 2, "trestbps": 104, "chol": 198,
+    "fbs": 0, "restecg": 1, "thalach": 148, "exang": 0, "oldpeak": 0.5,
+    "slope": 1, "ca": 0, "thal": 2
+  },
+  "metadata": {
+    "source_type": "author-drafted",
+    "reviewer_status": "author-drafted, pending clinician review",
+    "reviewed_by": null,
+    "last_reviewed": null,
+    "references": ["Standard MBBS-level new atrial fibrillation with RVR teaching pathway (rate control, stroke risk assessment before cardioversion)."]
+  }
+}

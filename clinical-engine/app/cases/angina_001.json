@@ -1,0 +1,58 @@
+{
+  "id": "angina-001",
+  "domain": "Cardiology",
+  "title": "52-year-old woman with exertional chest tightness",
+  "difficulty": "beginner",
+  "demographics": { "age": 52, "sex": "female", "occupation": "Teacher" },
+  "presenting_complaint": "Central chest tightness on climbing stairs for the past 3 weeks, relieved by rest within a few minutes.",
+  "vitals": { "heart_rate": 78, "bp_systolic": 138, "bp_diastolic": 86, "respiratory_rate": 16, "spo2": 98, "temperature_c": 36.8 },
+  "history_items": [
+    { "id": "h_onset", "question": "Ask about onset and pattern", "finding": "Gradual over 3 weeks, only with exertion, resolves with rest within 2-3 minutes.", "critical": true, "evidence_basis": "Classic stable-angina pattern: exertional, predictable, relieved by rest." },
+    { "id": "h_exertion", "question": "Ask if pain is exertional or at rest", "finding": "Consistently exertional, never at rest.", "critical": true, "evidence_basis": "Absence of rest pain argues against an acute coronary syndrome pattern." },
+    { "id": "h_risk_htn", "question": "Ask about hypertension", "finding": "Hypertension, on lisinopril.", "critical": false },
+    { "id": "h_risk_family", "question": "Ask about family history", "finding": "Mother had angina in her 60s.", "critical": false }
+  ],
+  "examination_items": [
+    { "id": "e_cardio", "maneuver": "Cardiovascular examination", "finding": "Normal heart sounds, no murmurs.", "critical": false },
+    { "id": "e_resp", "maneuver": "Respiratory examination", "finding": "Chest clear.", "critical": false }
+  ],
+  "investigations": [
+    { "id": "i_ecg", "name": "Resting 12-lead ECG", "category": "ECG", "cost_time_minutes": 5, "result_summary": "Normal resting ECG.", "result_detail": "No ST/T changes at rest — expected, since stable angina classically shows a normal resting ECG between episodes.", "discriminating": true, "evidence_basis": "A normal resting ECG does not exclude stable angina.", "likelihood_ratios": { "stable_angina": 1.5, "nstemi": 0.5, "gerd": 1.0 } },
+    { "id": "i_troponin_0h", "name": "Troponin I", "category": "Lab", "cost_time_minutes": 30, "result_summary": "Troponin I 8 ng/L (normal; URL 26 ng/L).", "result_detail": "Within normal range, arguing against acute infarction.", "discriminating": true, "evidence_basis": "Normal troponin argues against acute MI, supporting a stable-angina rather than ACS process.", "likelihood_ratios": { "stable_angina": 3.0, "nstemi": 0.1, "gerd": 1.0 } },
+    { "id": "i_exercise_ecg", "name": "Exercise treadmill test", "category": "Cardiac stress test", "cost_time_minutes": 45, "result_summary": "ST depression 2mm at 6 minutes of Bruce protocol, reproducing the chest tightness.", "result_detail": "Positive stress test with symptom reproduction, consistent with inducible ischemia.", "discriminating": true, "evidence_basis": "Standard confirmatory test for suspected stable angina.", "likelihood_ratios": { "stable_angina": 6.0, "nstemi": 0.5, "gerd": 0.2 } }
+  ],
+  "differentials": [
+    { "id": "stable_angina", "name": "Stable angina", "prior_probability": 0.5, "is_ground_truth": true },
+    { "id": "nstemi", "name": "Non-ST-elevation myocardial infarction", "prior_probability": 0.2, "is_ground_truth": false },
+    { "id": "gerd", "name": "Gastro-oesophageal reflux disease", "prior_probability": 0.3, "is_ground_truth": false }
+  ],
+  "critical_actions": ["h_onset", "h_exertion", "i_ecg", "i_troponin_0h"],
+  "clinical_decisions": [
+    { "id": "d_stable_angina_pathway", "label": "Diagnose stable angina: start antianginals, arrange outpatient stress testing/cardiology review", "is_appropriate": true, "rationale": "Consistent with an exertional, reproducible, rest-relieved pattern with normal troponin." },
+    { "id": "d_admit_as_acs", "label": "Admit and treat as acute coronary syndrome", "is_appropriate": false, "rationale": "Overcalls this presentation — no rest pain, normal troponin; unnecessary admission." }
+  ],
+  "outcome_branches": [
+    { "id": "o_favorable", "condition": "decision == d_stable_angina_pathway", "requires_decision_id": "d_stable_angina_pathway", "title": "Appropriate outpatient management", "narrative": "The patient is started on a beta blocker and referred for outpatient stress testing, which confirms inducible ischemia. She undergoes elective angiography and stenting of a moderate stenosis, with good symptom control thereafter.", "favorable": true, "educational_explanation": "Correctly distinguishing stable, exertional, rest-relieved pain with a normal troponin from an acute process allows appropriate outpatient workup rather than unnecessary admission." },
+    { "id": "o_overcall", "condition": "decision == d_admit_as_acs", "requires_decision_id": "d_admit_as_acs", "title": "Unnecessary admission", "narrative": "The patient is admitted for serial troponins, which remain normal. She is discharged after 24 hours having used inpatient resources unnecessarily.", "favorable": false, "educational_explanation": "Overcalling a classic stable-angina pattern as ACS wastes resources and causes unnecessary patient anxiety — recognizing the pattern matters as much as not missing ACS." }
+  ],
+  "counterfactual_branches": [
+    { "id": "cf_skip_troponin", "alternative_to_action_id": "i_troponin_0h", "alternative_action_label": "What if you had skipped checking troponin?", "alternative_evidence": "Without troponin, an acute process cannot be confidently excluded on history alone.", "probability_effect": "Confidence in stable angina vs. NSTEMI would be lower.", "potential_outcome": "Might reasonably still admit for observation, less efficient than confirming with troponin first.", "reasoning_lesson": "Even a classic history benefits from a confirmatory troponin when chest pain is the presenting complaint." }
+  ],
+  "reasoning_error_catalog": [
+    { "id": "premature_closure", "label": "Premature closure", "trigger": "Decision made before troponin reviewed.", "educational_note": "Committing to a plan before excluding an acute process." },
+    { "id": "incorrect_prioritization", "label": "Incorrect prioritization", "trigger": "Exercise ECG ordered before resting ECG/troponin.", "educational_note": "Stress testing should follow, not precede, baseline risk assessment." }
+  ],
+  "ml_feature_hint": {
+    "note": "See docs/DATASETS.md for the dataset's empirical (non-standard) cp/exang encoding used here.",
+    "age": 52, "sex": 0, "cp": 1, "trestbps": 138, "chol": 220,
+    "fbs": 0, "restecg": 0, "thalach": 150, "exang": 0, "oldpeak": 1.0,
+    "slope": 1, "ca": 0, "thal": 2
+  },
+  "metadata": {
+    "source_type": "author-drafted",
+    "reviewer_status": "author-drafted, pending clinician review",
+    "reviewed_by": null,
+    "last_reviewed": null,
+    "references": ["Standard MBBS-level stable angina teaching pathway (exertional pattern, resting ECG, stress testing)."]
+  }
+}

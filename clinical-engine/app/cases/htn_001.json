@@ -1,0 +1,58 @@
+{
+  "id": "htn-001",
+  "domain": "Cardiology",
+  "title": "45-year-old man with severe headache and very high blood pressure",
+  "difficulty": "intermediate",
+  "demographics": { "age": 45, "sex": "male", "occupation": "Chef" },
+  "presenting_complaint": "Severe headache and blurred vision for 4 hours, found to have blood pressure 220/130.",
+  "vitals": { "heart_rate": 92, "bp_systolic": 220, "bp_diastolic": 130, "respiratory_rate": 18, "spo2": 97, "temperature_c": 37.0 },
+  "history_items": [
+    { "id": "h_headache", "question": "Ask about headache character", "finding": "Severe, throbbing, worst headache of his life, started suddenly.", "critical": true, "evidence_basis": "Severe sudden headache with markedly elevated BP raises concern for hypertensive emergency with end-organ threat." },
+    { "id": "h_vision", "question": "Ask about visual symptoms", "finding": "Blurred vision in both eyes.", "critical": true, "evidence_basis": "Visual symptoms suggest possible hypertensive retinopathy/end-organ involvement." },
+    { "id": "h_compliance", "question": "Ask about antihypertensive compliance", "finding": "Stopped his amlodipine 3 weeks ago due to cost.", "critical": false, "evidence_basis": "Common precipitant of hypertensive crisis." },
+    { "id": "h_chest_pain", "question": "Ask about chest pain", "finding": "No chest pain.", "critical": false, "evidence_basis": "Screens for concurrent ACS/dissection, which would change management urgency/approach." }
+  ],
+  "examination_items": [
+    { "id": "e_fundoscopy", "maneuver": "Fundoscopy", "finding": "Bilateral papilledema and flame hemorrhages.", "critical": true, "evidence_basis": "Papilledema confirms hypertensive emergency with end-organ damage, not just severe uncomplicated hypertension." },
+    { "id": "e_neuro", "maneuver": "Focused neurological exam", "finding": "No focal deficits, alert and oriented.", "critical": true, "evidence_basis": "Absence of focal deficit argues against acute stroke, though does not exclude it entirely." },
+    { "id": "e_cardio", "maneuver": "Cardiovascular examination", "finding": "Normal heart sounds, no signs of heart failure.", "critical": false }
+  ],
+  "investigations": [
+    { "id": "i_urinalysis", "name": "Urinalysis", "category": "Lab", "cost_time_minutes": 15, "result_summary": "Proteinuria and microscopic hematuria.", "result_detail": "Evidence of renal end-organ involvement.", "discriminating": true, "evidence_basis": "Renal involvement supports a diagnosis of hypertensive emergency rather than uncomplicated severe hypertension.", "likelihood_ratios": { "hypertensive_emergency": 3.5, "uncomplicated_severe_htn": 0.3 } },
+    { "id": "i_ct_head", "name": "CT head (non-contrast)", "category": "Imaging", "cost_time_minutes": 30, "result_summary": "No acute hemorrhage or infarct.", "result_detail": "Excludes an acute intracranial bleed as the cause of the headache.", "discriminating": true, "evidence_basis": "Important to exclude hemorrhagic stroke, which would change management significantly.", "likelihood_ratios": { "hypertensive_emergency": 1.2, "uncomplicated_severe_htn": 1.0 } },
+    { "id": "i_creatinine", "name": "Renal function (creatinine)", "category": "Lab", "cost_time_minutes": 20, "result_summary": "Creatinine 168 µmol/L (elevated from a baseline of 90).", "result_detail": "Acute kidney injury, supporting end-organ damage.", "discriminating": true, "evidence_basis": "Acute renal impairment is a defining feature of hypertensive emergency.", "likelihood_ratios": { "hypertensive_emergency": 4.0, "uncomplicated_severe_htn": 0.2 } }
+  ],
+  "differentials": [
+    { "id": "hypertensive_emergency", "name": "Hypertensive emergency (with end-organ damage)", "prior_probability": 0.5, "is_ground_truth": true },
+    { "id": "uncomplicated_severe_htn", "name": "Severe hypertension without acute end-organ damage", "prior_probability": 0.5, "is_ground_truth": false }
+  ],
+  "critical_actions": ["h_headache", "e_fundoscopy", "i_creatinine"],
+  "clinical_decisions": [
+    { "id": "d_iv_titrated_lowering", "label": "Admit for controlled IV antihypertensive titration with close monitoring, targeting a gradual BP reduction", "is_appropriate": true, "rationale": "Correct: confirmed end-organ damage (papilledema, AKI, proteinuria) makes this a hypertensive emergency requiring controlled, monitored IV therapy — not rapid oral dosing at home." },
+    { "id": "d_oral_and_discharge", "label": "Give an oral antihypertensive dose and discharge home with a GP follow-up in a week", "is_appropriate": false, "rationale": "Unsafe: end-organ damage (papilledema, AKI) means this needs monitored inpatient BP control, not outpatient management." }
+  ],
+  "outcome_branches": [
+    { "id": "o_favorable", "condition": "decision == d_iv_titrated_lowering", "requires_decision_id": "d_iv_titrated_lowering", "title": "Appropriate controlled management", "narrative": "BP is carefully lowered over 24-48 hours with IV labetalol, headache and vision improve, renal function recovers, and he is discharged on an optimized oral regimen with close follow-up.", "favorable": true, "educational_explanation": "Confirmed end-organ damage requires monitored, controlled BP reduction — too-rapid lowering risks organ hypoperfusion, but untreated/undertreated crisis risks ongoing damage; inpatient titration balances both." },
+    { "id": "o_unsafe_discharge", "condition": "decision == d_oral_and_discharge", "requires_decision_id": "d_oral_and_discharge", "title": "Unsafe discharge", "narrative": "He returns two days later with worsening renal function and a further rise in creatinine, requiring admission and a more difficult recovery than if treated promptly.", "favorable": false, "educational_explanation": "Discharging a patient with confirmed end-organ damage (papilledema, AKI) without monitored inpatient management is unsafe — the presence of end-organ signs is what distinguishes an emergency from simple severe hypertension." }
+  ],
+  "counterfactual_branches": [
+    { "id": "cf_skip_fundoscopy", "alternative_to_action_id": "e_fundoscopy", "alternative_action_label": "What if you had skipped fundoscopy?", "alternative_evidence": "Papilledema is one of the clearest bedside signs distinguishing hypertensive emergency from severe-but-uncomplicated hypertension.", "probability_effect": "Substantially lower confidence in the emergency classification without it.", "potential_outcome": "Risk of undertreating a true emergency as if it were uncomplicated severe hypertension.", "reasoning_lesson": "A hypothesis-driven exam finding (fundoscopy here) can be as decisive as a lab test in distinguishing a true emergency from a look-alike." }
+  ],
+  "reasoning_error_catalog": [
+    { "id": "poor_investigation_selection", "label": "Poor investigation selection", "trigger": "Decision made before creatinine reviewed.", "educational_note": "Renal function is central to classifying this as an emergency vs. uncomplicated severe hypertension." },
+    { "id": "ignoring_red_flags", "label": "Ignoring red flags", "trigger": "e_fundoscopy not performed before the final decision.", "educational_note": "Skipping the single exam finding most likely to confirm end-organ damage." }
+  ],
+  "ml_feature_hint": {
+    "note": "See docs/DATASETS.md for the dataset's empirical (non-standard) cp/exang encoding used here.",
+    "age": 45, "sex": 1, "cp": 2, "trestbps": 220, "chol": 230,
+    "fbs": 0, "restecg": 1, "thalach": 140, "exang": 0, "oldpeak": 0.8,
+    "slope": 1, "ca": 0, "thal": 2
+  },
+  "metadata": {
+    "source_type": "author-drafted",
+    "reviewer_status": "author-drafted, pending clinician review",
+    "reviewed_by": null,
+    "last_reviewed": null,
+    "references": ["Standard MBBS-level hypertensive emergency vs. uncomplicated severe hypertension teaching distinction (end-organ damage as the key discriminator)."]
+  }
+}

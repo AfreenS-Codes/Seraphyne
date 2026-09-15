@@ -1,0 +1,62 @@
+services:
+  mongo:
+    image: mongo:7
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    restart: unless-stopped
+
+  ml-train:
+    build:
+      context: ./ml
+    profiles: ["train"] # run on demand: docker compose --profile train run ml-train
+    volumes:
+      - ./ml/artifacts:/app/artifacts
+      - ./ml/data:/app/data
+    command: >
+      sh -c "python preprocessing/prepare_dataset.py &&
+             python training/train_model.py &&
+             python evaluation/evaluate_model.py"
+
+  clinical-engine:
+    build:
+      context: .
+      dockerfile: clinical-engine/Dockerfile
+    ports:
+      - "8010:8010"
+    volumes:
+      - ./ml/artifacts:/app/ml/artifacts
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "4000:4000"
+    environment:
+      PORT: 4000
+      MONGODB_URI: mongodb://mongo:27017/seraphyne
+      JWT_SECRET: ${JWT_SECRET:-change-me-in-production}
+      CLINICAL_ENGINE_BASE_URL: http://clinical-engine:8010
+      AI_SERVICE_BASE_URL: ${AI_SERVICE_BASE_URL:-}
+      AI_SERVICE_API_KEY: ${AI_SERVICE_API_KEY:-}
+      CORS_ORIGIN: "*"
+    depends_on:
+      - mongo
+      - clinical-engine
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "5173:5173"
+    environment:
+      VITE_API_BASE_URL: http://localhost:4000/api/v1
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  mongo_data:
