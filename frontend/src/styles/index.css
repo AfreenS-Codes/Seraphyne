@@ -100,11 +100,36 @@ html.dark .heading-gradient {
   text-shadow: 0 0 24px rgba(167, 139, 250, 0.45), 0 2px 6px rgba(0, 0, 0, 0.4);
 }
 
-/* Key Numeric Value Visual Anchor */
+/* Key Numeric Value Visual Anchor & Fluid Type Scale */
+.stat-hero-value {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  font-size: clamp(2.25rem, 5vw, 3.25rem);
+  line-height: 1.1;
+}
+
 .stat-value-emphasis {
   font-family: var(--font-display);
   font-weight: 800;
   letter-spacing: -0.03em;
+  font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+  line-height: 1.15;
+}
+
+.stat-card-label {
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+.eyebrow-tag {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1.5;
 }
 
 /* Card Styles with subtle violet borders & shadows */
@@ -137,14 +162,14 @@ html.dark .heading-gradient {
   @apply inline-flex items-center justify-center gap-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-semibold px-4 py-2 rounded-xl shadow-glow-gold transition-all duration-150;
 }
 
-/* Badges & Pills */
+/* Badges & Pills (Updated with improved font size and contrast) */
 .pill {
-  @apply inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold tracking-wide;
+  @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[12px] font-bold tracking-wider;
 }
 
-/* Primary Violet Pill */
+/* Primary Violet Pill - High contrast against dark violet background */
 .pill-violet {
-  @apply bg-violet-50 dark:bg-violet-950/60 text-violet-700 dark:text-violet-300 border border-violet-200/70 dark:border-violet-800/70;
+  @apply bg-violet-50 dark:bg-violet-950/80 text-violet-700 dark:text-violet-200 border border-violet-200/80 dark:border-violet-700/80;
 }
 
 /* Clinical Status Colors: STRICTLY UNCHANGED for Medical Clarity */
@@ -222,6 +247,28 @@ html.dark .heading-gradient {
 .floating-bob {
   animation: subtleBob 4.8s infinite ease-in-out;
   will-change: transform;
+}
+
+/* Pulsing Ring for Active Chart Point */
+@keyframes chartRingPulse {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.6);
+    opacity: 0.35;
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+.animate-chart-pulse {
+  transform-origin: center;
+  transform-box: fill-box;
+  animation: chartRingPulse 2.2s cubic-bezier(0.16, 1, 0.3, 1) infinite;
 }
 
 /* Respect prefers-reduced-motion: disable all floating/drift animations */

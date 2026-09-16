@@ -82,7 +82,7 @@ export function AppShell({ children }: AppShellProps) {
                 <span className="font-display font-extrabold text-slate-900 dark:text-slate-100 tracking-tight text-base block leading-none">
                   SERAPHYNE
                 </span>
-                <span className="text-[9px] uppercase tracking-wider font-semibold text-violet-600 dark:text-violet-400 block mt-1">
+                <span className="text-[10.5px] uppercase tracking-wider font-semibold text-violet-600 dark:text-violet-400 block mt-1">
                   Clinical Reasoning
                 </span>
               </div>
@@ -102,7 +102,7 @@ export function AppShell({ children }: AppShellProps) {
               <Link
                 key={item.label}
                 to={item.to}
-                className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium transition-all ${
+                className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-[13.5px] font-medium transition-all ${
                   isActive
                     ? "bg-violet-50 dark:bg-violet-950/60 text-violet-700 dark:text-violet-300 font-semibold border border-violet-200/60 dark:border-violet-800/60 shadow-xs"
                     : "text-slate-600 dark:text-slate-400 hover:bg-violet-50/50 dark:hover:bg-violet-950/30 hover:text-slate-900 dark:hover:text-slate-100"
@@ -123,14 +123,14 @@ export function AppShell({ children }: AppShellProps) {
           <div className="pt-3 mt-3 border-t border-[#e9e5fb] dark:border-[#2b224c] space-y-1">
             <button
               onClick={() => setCompareOpen(true)}
-              className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-violet-50/50 dark:hover:bg-violet-950/30 hover:text-slate-900 dark:hover:text-slate-100 transition-all text-left"
+              className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-[13.5px] font-medium text-slate-600 dark:text-slate-400 hover:bg-violet-50/50 dark:hover:bg-violet-950/30 hover:text-slate-900 dark:hover:text-slate-100 transition-all text-left"
             >
               <GitCompare className="w-4 h-4 text-slate-400" />
               {!sidebarCollapsed && <span>Case Comparison</span>}
             </button>
             <button
               onClick={() => setHistoryOpen(true)}
-              className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-violet-50/50 dark:hover:bg-violet-950/30 hover:text-slate-900 dark:hover:text-slate-100 transition-all text-left"
+              className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-[13.5px] font-medium text-slate-600 dark:text-slate-400 hover:bg-violet-50/50 dark:hover:bg-violet-950/30 hover:text-slate-900 dark:hover:text-slate-100 transition-all text-left"
             >
               <History className="w-4 h-4 text-slate-400" />
               {!sidebarCollapsed && <span>Case Audit History</span>}
@@ -146,10 +146,10 @@ export function AppShell({ children }: AppShellProps) {
             </div>
             {!sidebarCollapsed && (
               <div className="flex-1 min-w-0">
-                <p className="text-xs font-bold text-slate-800 dark:text-slate-200 truncate">
+                <p className="text-[13px] font-bold text-slate-800 dark:text-slate-200 truncate">
                   {user?.name || "Aanya Rao"}
                 </p>
-                <p className="text-[10px] text-slate-400 dark:text-slate-500 truncate">
+                <p className="text-[11px] text-slate-500 dark:text-slate-400 truncate">
                   MBBS · Year 4 (Cardiology)
                 </p>
               </div>
@@ -183,16 +183,16 @@ export function AppShell({ children }: AppShellProps) {
 
             {/* Breadcrumb / Title */}
             <div className="hidden sm:block">
-              <h1 className="font-display font-bold text-slate-900 dark:text-slate-100 text-sm">
+              <h1 className="font-display font-bold text-slate-900 dark:text-slate-100 text-[15.5px]">
                 Clinical Learning Dashboard
               </h1>
-              <p className="text-[11px] text-slate-400 dark:text-slate-500 leading-none mt-0.5">
+              <p className="text-[12px] text-slate-500 dark:text-slate-400 leading-relaxed mt-0.5">
                 Adaptive clinical reasoning & physiological twins overview
               </p>
             </div>
 
             {/* Online Simulation Engine Status Pill (Status colors UNCHANGED) */}
-            <div className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200/80 dark:border-emerald-800/60 text-[11px] font-semibold text-emerald-700 dark:text-emerald-300 shadow-xs">
+            <div className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200/80 dark:border-emerald-800/60 text-[12px] font-semibold text-emerald-700 dark:text-emerald-300 shadow-xs">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
               <span>Simulation Engine: Online</span>
             </div>

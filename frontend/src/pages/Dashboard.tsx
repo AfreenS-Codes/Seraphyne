@@ -187,13 +187,13 @@ export function Dashboard() {
             <div className="absolute top-0 left-1/3 w-64 h-64 bg-purple-500/10 rounded-full blur-2xl pointer-events-none" />
 
             <div className="relative z-10">
-              <span className="text-[11px] font-bold uppercase tracking-widest text-violet-300 block mb-2">
+              <span className="eyebrow-tag text-violet-300 block mb-2">
                 WELCOME BACK
               </span>
-              <h2 className="heading-gradient text-3xl md:text-4xl font-extrabold tracking-tight">
+              <h2 className="heading-gradient text-3xl md:text-4xl font-extrabold tracking-tight leading-tight">
                 Good evening, Dr. Rao
               </h2>
-              <p className="text-violet-100/90 text-xs md:text-sm mt-2 max-w-xl leading-relaxed">
+              <p className="text-violet-100/90 text-[13.5px] md:text-[14.5px] mt-2 max-w-xl leading-relaxed">
                 Your clinical reasoning is improving across acute cardiology simulations. Continue your
                 adaptive learning pathway or explore the multi-organ digital twin below.
               </p>
@@ -220,13 +220,13 @@ export function Dashboard() {
           {/* Today's Focus Card (Subtle floating bob applied) */}
           <div className="lg:col-span-4 p-6 rounded-3xl bg-white dark:bg-[#1c1533]/90 border border-[#e9e5fb] dark:border-[#2b224c] shadow-card flex flex-col justify-between floating-bob">
             <div>
-              <span className="text-[10px] font-bold uppercase tracking-wider text-violet-600 dark:text-violet-400 block mb-1">
+              <span className="eyebrow-tag text-violet-600 dark:text-violet-400 block mb-1.5">
                 TODAY'S FOCUS
               </span>
-              <h3 className="font-display font-extrabold text-slate-900 dark:text-slate-100 text-lg">
+              <h3 className="font-display font-extrabold text-slate-900 dark:text-slate-100 text-lg md:text-xl leading-snug">
                 Multi-organ instability
               </h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+              <p className="text-[13px] text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
                 Cardio-respiratory cascade management
               </p>
             </div>
@@ -273,10 +273,10 @@ export function Dashboard() {
               }`}
             >
               <div>
-                <span className="text-[11px] font-medium text-slate-500 dark:text-slate-400 block mb-1">
+                <span className="text-[13px] font-semibold text-slate-600 dark:text-slate-300 block mb-1.5 leading-snug">
                   {kpi.label}
                 </span>
-                <span className="stat-value-emphasis text-2xl md:text-3xl text-slate-900 dark:text-slate-100 block">
+                <span className="stat-value-emphasis text-slate-900 dark:text-slate-100 block">
                   {kpi.value}
                 </span>
               </div>
@@ -298,7 +298,7 @@ export function Dashboard() {
                 </svg>
               </div>
 
-              <div className="flex items-center gap-1 text-[10px] text-violet-600 dark:text-violet-400 font-semibold">
+              <div className="flex items-center gap-1 text-[11px] text-violet-600 dark:text-violet-300 font-bold leading-normal">
                 <TrendingUp className="w-3 h-3" />
                 <span>{kpi.delta}</span>
               </div>
@@ -341,7 +341,7 @@ export function Dashboard() {
                   key={v.label}
                   className="p-3 rounded-xl bg-violet-50/40 dark:bg-[#130e26]/60 border border-[#e9e5fb] dark:border-[#2b224c] flex flex-col justify-between"
                 >
-                  <div className="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400">
+                  <div className="flex items-center justify-between text-[12px] font-medium text-slate-600 dark:text-slate-300">
                     <span>{v.label}</span>
                     <span
                       className={`font-bold ${
@@ -356,12 +356,12 @@ export function Dashboard() {
 
                   <div className="my-1">
                     <div className="flex items-baseline gap-1">
-                      <span className="stat-value-emphasis text-xl text-slate-900 dark:text-slate-100">
+                      <span className="stat-value-emphasis text-2xl text-slate-900 dark:text-slate-100">
                         {v.value}
                       </span>
                       <span className="text-xs text-slate-400">{v.unit}</span>
                     </div>
-                    <span className="text-[9px] text-slate-400 block">{v.ref}</span>
+                    <span className="text-[10px] text-slate-400 dark:text-slate-400 block">{v.ref}</span>
                   </div>
 
                   {/* Vitals Range Bar (Clinical Status: Red/Amber/Green preserved) */}

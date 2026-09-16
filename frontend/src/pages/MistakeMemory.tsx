@@ -41,12 +41,12 @@ export function MistakeMemory() {
       <div className="max-w-5xl mx-auto space-y-6 pb-20">
         <div>
           <div className="flex items-center gap-2">
-            <span className="pill pill-gold">Cognitive Heuristics Engine</span>
+            <span className="pill pill-gold eyebrow-tag">Cognitive Heuristics Engine</span>
           </div>
-          <h1 className="font-display text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-slate-100 mt-1">
+          <h1 className="font-display text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-slate-100 mt-1.5 leading-tight">
             Mistake Memory
           </h1>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+          <p className="text-[13px] text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
             Recurring reasoning patterns and clinical decision biases detected across your Cardiology sessions.
           </p>
         </div>
