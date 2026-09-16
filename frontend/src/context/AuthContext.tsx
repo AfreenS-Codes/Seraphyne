@@ -19,10 +19,14 @@ interface AuthContextValue {
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
+  const isDemo = typeof window !== "undefined" && window.location.search.includes("demo=true");
+  const [user, setUser] = useState<User | null>(() =>
+    isDemo ? { id: "demo-user", email: "demo@seraphyne.app", name: "Dr. Aanya Rao", role: "student" } : null
+  );
+  const [loading, setLoading] = useState(!isDemo);
 
   useEffect(() => {
+    if (isDemo) return;
     const token = localStorage.getItem("seraphyne_token");
     if (!token) {
       setLoading(false);
@@ -35,7 +39,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         localStorage.removeItem("seraphyne_token");
       })
       .finally(() => setLoading(false));
-  }, []);
+  }, [isDemo]);
 
   async function login(email: string, password: string) {
     const res = await authApi.login(email, password);

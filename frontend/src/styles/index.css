@@ -3,26 +3,254 @@
 @tailwind utilities;
 
 :root {
-  --bg: #f5f8fc;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-display: 'Manrope', system-ui, sans-serif;
+  
+  /* Light Mode: Soft white-to-lavender atmosphere */
+  --bg-primary: #faf9fe;
+  --bg-surface: #ffffff;
+  --bg-surface-secondary: #f5f3ff;
+  --bg-card: rgba(255, 255, 255, 0.96);
+  
+  --border-subtle: #e9e5fb;
+  --border-strong: #ddd6fe;
+  
+  --text-primary: #181335;
+  --text-secondary: #4c4669;
+  --text-muted: #6d688d;
+  
+  --accent-primary: #7c5cfc;
+  --accent-primary-hover: #6a46f9;
+  --accent-primary-subtle: #f5f3ff;
+  --accent-primary-border: #ede9fe;
+  
+  --accent-secondary: #c026d3;
+  --accent-secondary-subtle: #fdf4ff;
+  
+  --accent-gold: #f59e0b;
+  --accent-gold-dark: #b45309;
+}
+
+html.dark {
+  /* Dark Mode: Deep indigo-violet with luminous accent glow (No pure black) */
+  --bg-primary: #130e26;
+  --bg-surface: #1c1533;
+  --bg-surface-secondary: #231a42;
+  --bg-card: rgba(28, 21, 51, 0.88);
+  
+  --border-subtle: #2b224c;
+  --border-strong: #3f336b;
+  
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  
+  --accent-primary: #a78bfa;
+  --accent-primary-hover: #c084fc;
+  --accent-primary-subtle: rgba(167, 139, 250, 0.15);
+  --accent-primary-border: rgba(167, 139, 250, 0.32);
+  
+  --accent-secondary: #e879f9;
+  --accent-secondary-subtle: rgba(232, 121, 249, 0.14);
+  
+  --accent-gold: #fbbf24;
+  --accent-gold-dark: #f59e0b;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--bg);
-  color: #0f172a;
+  background-color: var(--bg-primary);
+  /* Atmospheric background washes */
+  background-image: 
+    radial-gradient(ellipse 65% 45% at 15% 10%, rgba(124, 92, 252, 0.05), transparent 60%),
+    radial-gradient(ellipse 55% 40% at 85% 15%, rgba(192, 132, 252, 0.04), transparent 55%),
+    radial-gradient(circle at 50% 85%, rgba(139, 92, 246, 0.03), transparent 60%);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  transition: background-color 0.25s ease, color 0.25s ease;
+  min-height: 100vh;
 }
 
+html.dark body {
+  background-image: 
+    radial-gradient(ellipse 60% 45% at 15% 12%, rgba(124, 92, 252, 0.14), transparent 65%),
+    radial-gradient(ellipse 55% 40% at 85% 18%, rgba(192, 132, 252, 0.10), transparent 60%),
+    radial-gradient(circle at 50% 80%, rgba(91, 52, 230, 0.08), transparent 70%);
+}
+
+h1, h2, h3, h4, .font-display {
+  font-family: var(--font-display);
+}
+
+/* Typography Gradient Emphasis for Major Headings */
+.heading-gradient {
+  background: linear-gradient(135deg, #371b7a 0%, #6a46f9 55%, #c026d3 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+html.dark .heading-gradient {
+  background: none;
+  -webkit-background-clip: initial;
+  -webkit-text-fill-color: initial;
+  color: #ffffff;
+  text-shadow: 0 0 24px rgba(167, 139, 250, 0.45), 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+/* Key Numeric Value Visual Anchor */
+.stat-value-emphasis {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+/* Card Styles with subtle violet borders & shadows */
 .card {
-  @apply bg-white/90 backdrop-blur-sm rounded-xl border border-slate-200 shadow-sm;
+  @apply bg-white dark:bg-[#1c1533]/90 rounded-2xl border border-[#e9e5fb] dark:border-[#2b224c] shadow-soft dark:shadow-none backdrop-blur-sm transition-all duration-200;
 }
 
+.card-hover {
+  @apply hover:shadow-card-hover hover:-translate-y-0.5 hover:border-violet-500/40 dark:hover:border-violet-400/50;
+}
+
+.card-interactive {
+  @apply card card-hover cursor-pointer;
+}
+
+/* Buttons with refined violet and luminous glow */
 .btn-primary {
-  @apply bg-medblue-600 hover:bg-medblue-700 text-white font-medium px-4 py-2 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed;
+  @apply inline-flex items-center justify-center gap-2 bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-500 hover:to-purple-500 active:from-violet-700 active:to-purple-700 text-white font-semibold px-4 py-2 rounded-xl transition-all duration-150 shadow-sm hover:shadow-glow-violet disabled:opacity-50 disabled:pointer-events-none;
 }
 
 .btn-secondary {
-  @apply bg-white hover:bg-softblue text-medblue-700 font-medium px-4 py-2 rounded-lg border border-medblue-200 transition-colors disabled:opacity-50;
+  @apply inline-flex items-center justify-center gap-2 bg-white dark:bg-[#1c1533] hover:bg-violet-50/70 dark:hover:bg-violet-950/40 text-slate-700 dark:text-slate-200 font-medium px-4 py-2 rounded-xl border border-[#e9e5fb] dark:border-[#2b224c] transition-all duration-150 disabled:opacity-50;
 }
 
+.btn-navy {
+  @apply inline-flex items-center justify-center gap-2 bg-navy-900 hover:bg-slate-800 text-white font-medium px-4 py-2 rounded-xl transition-all duration-150 shadow-sm border border-slate-700/50;
+}
+
+.btn-gold {
+  @apply inline-flex items-center justify-center gap-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-semibold px-4 py-2 rounded-xl shadow-glow-gold transition-all duration-150;
+}
+
+/* Badges & Pills */
 .pill {
-  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  @apply inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold tracking-wide;
+}
+
+/* Primary Violet Pill */
+.pill-violet {
+  @apply bg-violet-50 dark:bg-violet-950/60 text-violet-700 dark:text-violet-300 border border-violet-200/70 dark:border-violet-800/70;
+}
+
+/* Clinical Status Colors: STRICTLY UNCHANGED for Medical Clarity */
+.pill-stable {
+  @apply bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200/60 dark:border-emerald-800/60;
+}
+
+.pill-gold {
+  @apply bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border border-amber-200/60 dark:border-amber-800/60;
+}
+
+.pill-danger {
+  @apply bg-rose-50 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 border border-rose-200/60 dark:border-rose-800/60;
+}
+
+/* Golden Words Highlighting */
+.golden-word {
+  @apply relative inline-block font-bold text-amber-600 dark:text-amber-400 px-1 py-0.5 rounded bg-gradient-to-r from-amber-500/10 via-amber-400/15 to-amber-500/10 border border-amber-300/40 dark:border-amber-600/40 shadow-sm;
+}
+
+.golden-badge {
+  @apply inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-amber-900 dark:text-amber-200 bg-gradient-to-r from-amber-100 via-amber-200 to-amber-100 dark:from-amber-950 dark:via-amber-900/80 dark:to-amber-950 border border-amber-300/70 dark:border-amber-700/60 shadow-sm;
+}
+
+/* Scroll-reveal animations */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1), transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-on-scroll.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.stagger-1 { transition-delay: 60ms; }
+.stagger-2 { transition-delay: 120ms; }
+.stagger-3 { transition-delay: 180ms; }
+.stagger-4 { transition-delay: 240ms; }
+.stagger-5 { transition-delay: 300ms; }
+
+/* Ambient Floating / Drifting Orbs */
+@keyframes ambientDriftSlow {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  33% {
+    transform: translate(30px, -20px) scale(1.05);
+  }
+  66% {
+    transform: translate(-25px, 25px) scale(0.96);
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+}
+
+.animate-ambient-drift {
+  animation: ambientDriftSlow 32s infinite ease-in-out;
+  will-change: transform;
+}
+
+/* Gentle Bobbing for small active badges/cards */
+@keyframes subtleBob {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3.5px);
+  }
+}
+
+.floating-bob {
+  animation: subtleBob 4.8s infinite ease-in-out;
+  will-change: transform;
+}
+
+/* Respect prefers-reduced-motion: disable all floating/drift animations */
+@media (prefers-reduced-motion: reduce) {
+  .animate-ambient-drift,
+  .floating-bob,
+  .reveal-on-scroll {
+    animation: none !important;
+    transform: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+  }
+}
+
+/* Custom Scrollbar with violet accent */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #c4b5fd;
+  border-radius: 9999px;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: #3f336b;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #a78bfa;
 }
