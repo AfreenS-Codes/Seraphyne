@@ -135,7 +135,10 @@ export function Analytics() {
   if (!data) {
     return (
       <AppShell>
-        <p className="text-slate-500 text-sm">Loading analytics…</p>
+        <div className="card p-12 flex flex-col items-center justify-center space-y-3 min-h-[40vh]">
+          <div className="w-8 h-8 rounded-full border-2 border-violet-500 border-t-transparent animate-spin" />
+          <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Loading clinical performance curves & competency radar telemetry…</p>
+        </div>
       </AppShell>
     );
   }

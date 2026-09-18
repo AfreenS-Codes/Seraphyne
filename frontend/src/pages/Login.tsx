@@ -168,10 +168,11 @@ export function Login() {
 
             {/* Student Profile Inputs */}
             <div>
-              <label className="text-xs font-semibold text-slate-600 dark:text-slate-400 block mb-1">
+              <label htmlFor="login-fullname" className="text-xs font-semibold text-slate-600 dark:text-slate-400 block mb-1">
                 Full name
               </label>
               <input
+                id="login-fullname"
                 type="text"
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
@@ -182,10 +183,11 @@ export function Login() {
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="text-xs font-semibold text-slate-600 dark:text-slate-400 block mb-1">
+                <label htmlFor="login-studentid" className="text-xs font-semibold text-slate-600 dark:text-slate-400 block mb-1">
                   Student ID
                 </label>
                 <input
+                  id="login-studentid"
                   type="text"
                   value={studentId}
                   onChange={(e) => setStudentId(e.target.value)}
@@ -193,10 +195,11 @@ export function Login() {
                 />
               </div>
               <div>
-                <label className="text-xs font-semibold text-slate-600 dark:text-slate-400 block mb-1">
+                <label htmlFor="login-institution" className="text-xs font-semibold text-slate-600 dark:text-slate-400 block mb-1">
                   Institution
                 </label>
                 <input
+                  id="login-institution"
                   type="text"
                   value={institution}
                   onChange={(e) => setInstitution(e.target.value)}
@@ -206,10 +209,11 @@ export function Login() {
             </div>
 
             <div>
-              <label className="text-xs font-semibold text-slate-600 dark:text-slate-400 block mb-1">
+              <label htmlFor="login-yearbatch" className="text-xs font-semibold text-slate-600 dark:text-slate-400 block mb-1">
                 Year / Batch
               </label>
               <select
+                id="login-yearbatch"
                 value={yearBatch}
                 onChange={(e) => setYearBatch(e.target.value)}
                 className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-violet-500"
@@ -235,8 +239,9 @@ export function Login() {
             {showAdvancedAuth && (
               <div className="space-y-3 p-3 bg-slate-50 dark:bg-slate-800/60 rounded-xl border border-slate-200/80 dark:border-slate-700">
                 <div>
-                  <label className="text-[11px] text-slate-500 dark:text-slate-400 block mb-0.5">Email</label>
+                  <label htmlFor="login-email" className="text-[11px] text-slate-500 dark:text-slate-400 block mb-0.5">Email</label>
                   <input
+                    id="login-email"
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
@@ -244,8 +249,9 @@ export function Login() {
                   />
                 </div>
                 <div>
-                  <label className="text-[11px] text-slate-500 dark:text-slate-400 block mb-0.5">Password</label>
+                  <label htmlFor="login-password" className="text-[11px] text-slate-500 dark:text-slate-400 block mb-0.5">Password</label>
                   <input
+                    id="login-password"
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}

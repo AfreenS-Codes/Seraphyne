@@ -52,7 +52,10 @@ export function MistakeMemory() {
         </div>
 
         {loading ? (
-          <p className="text-slate-500 text-xs">Loading reasoning traces…</p>
+          <div className="card p-12 flex flex-col items-center justify-center space-y-3">
+            <div className="w-7 h-7 rounded-full border-2 border-violet-500 border-t-transparent animate-spin" />
+            <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Loading reasoning traces & cognitive heuristic detections…</p>
+          </div>
         ) : mistakes.length === 0 ? (
           <div className="card p-10 text-center text-slate-500">
             <CheckCircle2 className="w-8 h-8 text-violet-600 dark:text-violet-400 mx-auto mb-2" />

@@ -267,21 +267,35 @@ export function PostCaseReport() {
           <div className="flex gap-2 mb-3">
             <input
               type="text"
+              aria-label="Follow-up question for post-case debrief"
               value={question}
               onChange={(e) => setQuestion(e.target.value)}
               placeholder="e.g. Why is oxygen support titrated only when SpO2 < 90%?"
-              className="flex-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2 text-xs focus:ring-2 focus:ring-violet-500"
+              className="flex-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-slate-100 rounded-xl px-3.5 py-2 text-xs focus:ring-2 focus:ring-violet-500 focus:outline-none"
             />
             <button
               onClick={askCompanion}
               disabled={asking || !question.trim()}
-              className="btn-primary text-xs px-4 py-2"
+              className="btn-primary text-xs px-4 py-2 flex items-center gap-1.5"
             >
-              {asking ? "Consulting AI…" : "Ask Question"}
+              {asking && <span className="w-3 h-3 rounded-full border-2 border-white border-t-transparent animate-spin" />}
+              <span>{asking ? "Consulting AI…" : "Ask Question"}</span>
             </button>
           </div>
 
-          {companion && (
+          {companion && !companion.available && (
+            <div className="p-4 rounded-xl bg-amber-50/70 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/60 text-xs text-amber-800 dark:text-amber-200 flex items-start gap-2.5">
+              <HelpCircle className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
+              <div>
+                <span className="font-semibold block mb-0.5">AI Study Companion Standby</span>
+                <p className="leading-relaxed text-amber-700 dark:text-amber-300">
+                  {companion.error || "The AI Study Companion is temporarily offline. Your simulation outcomes, reasoning trace, and performance analytics are fully saved."}
+                </p>
+              </div>
+            </div>
+          )}
+
+          {companion && companion.available && (
             <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 text-xs text-slate-700 dark:text-slate-300">
               <span className="font-bold text-violet-700 dark:text-violet-400 block mb-1">
                 ✦ Seraphyne Clinical Explanation:

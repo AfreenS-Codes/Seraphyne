@@ -152,6 +152,7 @@ export function Cardiology() {
             <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
               type="text"
+              aria-label="Search case studies"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search case studies, keywords, patient codes…"
@@ -161,6 +162,7 @@ export function Cardiology() {
 
           <div className="flex gap-2 w-full sm:w-auto">
             <select
+              aria-label="Filter by organ system"
               value={systemFilter}
               onChange={(e) => setSystemFilter(e.target.value)}
               className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-700 dark:text-slate-200 focus:ring-2 focus:ring-violet-500 shadow-xs"
@@ -175,6 +177,7 @@ export function Cardiology() {
             </select>
 
             <select
+              aria-label="Filter by difficulty level"
               value={levelFilter}
               onChange={(e) => setLevelFilter(e.target.value)}
               className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-700 dark:text-slate-200 focus:ring-2 focus:ring-violet-500 shadow-xs"
@@ -187,70 +190,90 @@ export function Cardiology() {
           </div>
         </div>
 
-        {/* 2-Column Cases Grid */}
-        <div className="grid md:grid-cols-2 gap-4">
-          {filteredCases.map((c) => {
-            const isSelected = selectedCaseId === c.id;
+        {/* 2-Column Cases Grid or Empty State */}
+        {filteredCases.length === 0 ? (
+          <div className="card p-12 text-center text-slate-500 dark:text-slate-400">
+            <Filter className="w-8 h-8 mx-auto text-violet-400 dark:text-violet-500 mb-2 opacity-75" />
+            <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">No matching cases</p>
+            <p className="text-xs text-slate-400 dark:text-slate-500 mt-1 max-w-sm mx-auto">
+              No clinical simulation cases match your current search query or active filter settings.
+            </p>
+            <button
+              onClick={() => {
+                setSearchQuery("");
+                setSystemFilter("All");
+                setLevelFilter("All");
+              }}
+              className="mt-4 btn-secondary text-xs px-4 py-1.5"
+            >
+              Reset filters
+            </button>
+          </div>
+        ) : (
+          <div className="grid md:grid-cols-2 gap-4">
+            {filteredCases.map((c) => {
+              const isSelected = selectedCaseId === c.id;
 
-            return (
-              <div
-                key={c.id}
-                onClick={() => setSelectedCaseId(c.id)}
-                className={`card p-5 cursor-pointer transition-all duration-200 flex flex-col justify-between ${
-                  isSelected
-                    ? "border-violet-500/80 bg-violet-50/20 dark:bg-violet-950/20 shadow-soft ring-1 ring-violet-500"
-                    : "hover:border-slate-300 dark:hover:border-slate-700 hover:shadow-sm"
-                }`}
-              >
-                <div>
-                  <div className="flex items-center justify-between gap-2 mb-2">
-                    <div className="flex items-center gap-2">
-                      <h3 className="font-display font-bold text-sm text-slate-900 dark:text-slate-100">
-                        {c.title}
-                      </h3>
-                      {c.flagship && (
-                        <span className="golden-badge text-[9px] py-0">
-                          Flagship
-                        </span>
-                      )}
+              return (
+                <div
+                  key={c.id}
+                  onClick={() => setSelectedCaseId(c.id)}
+                  className={`card p-5 cursor-pointer transition-all duration-200 flex flex-col justify-between ${
+                    isSelected
+                      ? "border-violet-500/80 bg-violet-50/20 dark:bg-violet-950/20 shadow-soft ring-1 ring-violet-500"
+                      : "hover:border-slate-300 dark:hover:border-slate-700 hover:shadow-sm"
+                  }`}
+                >
+                  <div>
+                    <div className="flex items-center justify-between gap-2 mb-2">
+                      <div className="flex items-center gap-2">
+                        <h3 className="font-display font-bold text-sm text-slate-900 dark:text-slate-100">
+                          {c.title}
+                        </h3>
+                        {c.flagship && (
+                          <span className="golden-badge text-[9px] py-0">
+                            Flagship
+                          </span>
+                        )}
+                      </div>
+                      <span
+                        className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${getBadgeClass(
+                          c.difficulty
+                        )}`}
+                      >
+                        {c.difficulty}
+                      </span>
                     </div>
-                    <span
-                      className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${getBadgeClass(
-                        c.difficulty
-                      )}`}
-                    >
-                      {c.difficulty}
-                    </span>
+
+                    <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+                      {c.description}
+                    </p>
                   </div>
 
-                  <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
-                    {c.description}
-                  </p>
-                </div>
+                  <div className="flex items-center justify-between text-[11px] text-slate-400 dark:text-slate-500 pt-3 border-t border-slate-100 dark:border-slate-800/60">
+                    <div className="flex items-center gap-3">
+                      <span className="flex items-center gap-1">
+                        <Activity className="w-3.5 h-3.5 text-violet-600 dark:text-violet-400" />
+                        {c.system}
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <Clock className="w-3.5 h-3.5 text-slate-400" />
+                        {c.duration}
+                      </span>
+                      <span>{c.patientCode}</span>
+                    </div>
 
-                <div className="flex items-center justify-between text-[11px] text-slate-400 dark:text-slate-500 pt-3 border-t border-slate-100 dark:border-slate-800/60">
-                  <div className="flex items-center gap-3">
-                    <span className="flex items-center gap-1">
-                      <Activity className="w-3.5 h-3.5 text-violet-600 dark:text-violet-400" />
-                      {c.system}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <Clock className="w-3.5 h-3.5 text-slate-400" />
-                      {c.duration}
-                    </span>
-                    <span>{c.patientCode}</span>
+                    {isSelected && (
+                      <span className="flex items-center gap-1 text-violet-600 dark:text-violet-400 font-semibold text-xs">
+                        <CheckCircle2 className="w-4 h-4" /> Selected
+                      </span>
+                    )}
                   </div>
-
-                  {isSelected && (
-                    <span className="flex items-center gap-1 text-violet-600 dark:text-violet-400 font-semibold text-xs">
-                      <CheckCircle2 className="w-4 h-4" /> Selected
-                    </span>
-                  )}
                 </div>
-              </div>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
+        )}
 
         {/* Floating Bottom Sticky Enter Action (Screenshot 2 bottom center button) */}
         <div className="fixed bottom-6 inset-x-0 flex justify-center z-20 pointer-events-none">

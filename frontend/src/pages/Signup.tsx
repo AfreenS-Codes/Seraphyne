@@ -26,24 +26,26 @@ export function Signup() {
   }
 
   return (
-    <div className="min-h-screen bg-softblue flex items-center justify-center px-6">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex items-center justify-center px-6">
       <div className="card p-8 w-full max-w-sm">
-        <h1 className="text-xl font-semibold text-slate-800 mb-1">Create your account</h1>
-        <p className="text-sm text-slate-500 mb-6">Start with the flagship Acute Coronary Syndrome case.</p>
+        <h1 className="text-xl font-display font-bold text-slate-900 dark:text-slate-100 mb-1">Create your account</h1>
+        <p className="text-xs md:text-sm text-slate-500 dark:text-slate-400 mb-6">Start with the flagship Acute Coronary Syndrome case.</p>
         <form onSubmit={onSubmit} className="space-y-4">
           <div>
-            <label className="text-sm text-slate-600 mb-1 block">Name</label>
+            <label htmlFor="signup-name" className="text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1 block">Name</label>
             <input
-              className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-medblue-500"
+              id="signup-name"
+              className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-slate-100 rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-violet-500"
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
             />
           </div>
           <div>
-            <label className="text-sm text-slate-600 mb-1 block">Email</label>
+            <label htmlFor="signup-email" className="text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1 block">Email</label>
             <input
-              className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-medblue-500"
+              id="signup-email"
+              className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-slate-100 rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-violet-500"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -51,9 +53,10 @@ export function Signup() {
             />
           </div>
           <div>
-            <label className="text-sm text-slate-600 mb-1 block">Password (min 8 characters)</label>
+            <label htmlFor="signup-password" className="text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1 block">Password (min 8 characters)</label>
             <input
-              className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-medblue-500"
+              id="signup-password"
+              className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-slate-100 rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-violet-500"
               type="password"
               minLength={8}
               value={password}
@@ -61,13 +64,13 @@ export function Signup() {
               required
             />
           </div>
-          {error && <p className="text-sm text-red-600">{error}</p>}
-          <button className="btn-primary w-full" disabled={loading} type="submit">
+          {error && <p className="text-xs text-rose-600 dark:text-rose-400">{error}</p>}
+          <button className="btn-primary w-full text-xs md:text-sm py-2.5" disabled={loading} type="submit">
             {loading ? "Creating account…" : "Sign up"}
           </button>
         </form>
-        <p className="text-sm text-slate-500 mt-4">
-          Already have an account? <Link to="/login" className="text-medblue-700 hover:underline">Log in</Link>
+        <p className="text-xs text-slate-500 dark:text-slate-400 mt-4 text-center">
+          Already have an account? <Link to="/login" className="text-violet-600 dark:text-violet-400 hover:underline font-medium">Log in</Link>
         </p>
       </div>
     </div>

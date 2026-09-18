@@ -89,10 +89,15 @@ export async function recordAction(
 
 export async function updateDifferentials(sessionId: string, studentId: string, differentialIds: string[]) {
   const session = await getOwnedSession(sessionId, studentId);
-  const caseData = await clinicalEngineClient.getCase(session.caseId);
-  const nameById = new Map<string, string>(
-    caseData.differential_options.map((d: any) => [d.id, d.name])
-  );
+  let nameById = new Map<string, string>();
+  try {
+    const caseData = await clinicalEngineClient.getCase(session.caseId);
+    nameById = new Map<string, string>(
+      (caseData.differential_options || []).map((d: any) => [d.id, d.name])
+    );
+  } catch {
+    // Clinical engine unavailable; fallback to diagnosisId
+  }
 
   for (const diagnosisId of differentialIds) {
     if (!session.differentialIds.includes(diagnosisId)) {
@@ -169,11 +174,16 @@ export async function submitDecision(sessionId: string, studentId: string, decis
     mlPrediction = null; // ML unavailable shouldn't block the rest of the journey
   }
 
-  const counterfactual = await clinicalEngineClient.counterfactual({
-    case_id: session.caseId,
-    session_id: sessionId,
-    actual_investigation_ids: session.investigationActionIds,
-  });
+  let counterfactual = null;
+  try {
+    counterfactual = await clinicalEngineClient.counterfactual({
+      case_id: session.caseId,
+      session_id: sessionId,
+      actual_investigation_ids: session.investigationActionIds,
+    });
+  } catch {
+    counterfactual = null; // Counterfactual unavailable shouldn't block the rest of the journey
+  }
 
   const updated = await sessions.updateById(sessionId, {
     decisionId,

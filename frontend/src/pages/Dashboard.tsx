@@ -149,6 +149,19 @@ export function Dashboard() {
     },
   ];
 
+  if (loading) {
+    return (
+      <AppShell>
+        <div className="flex flex-col items-center justify-center min-h-[50vh] space-y-4">
+          <div className="w-8 h-8 rounded-full border-2 border-violet-500 border-t-transparent animate-spin" />
+          <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
+            Loading clinical performance & digital twin telemetry…
+          </p>
+        </div>
+      </AppShell>
+    );
+  }
+
   const sparklineStroke = theme === "dark" ? "#a78bfa" : "#7c5cfc";
 
   return (
@@ -234,25 +247,26 @@ export function Dashboard() {
             <div className="my-4 pt-3 border-t border-[#e9e5fb] dark:border-[#2b224c] grid grid-cols-2 gap-3 text-xs">
               <div>
                 <span className="text-[10px] text-slate-400 block">Recommended Case</span>
-                <span className="font-semibold text-slate-800 dark:text-slate-200">
-                  Cardio-respiratory
+                <span className="font-semibold text-slate-800 dark:text-slate-200 line-clamp-1">
+                  {data?.recommendedCase?.case?.title || "Acute Coronary Syndrome (ACS-001)"}
                 </span>
               </div>
               <div>
                 <span className="text-[10px] text-slate-400 block">Duration</span>
                 <span className="font-semibold text-slate-800 dark:text-slate-200">
-                  ~40 min
+                  ~25 min
                 </span>
               </div>
               <div className="col-span-2">
-                <span className="text-[10px] text-slate-400 block">Difficulty</span>
-                {/* Clinical status badge unchanged */}
-                <span className="pill pill-gold text-[10px] mt-0.5">Advanced</span>
+                <span className="text-[10px] text-slate-400 block">Focus Rationale</span>
+                <span className="text-xs text-slate-600 dark:text-slate-400 line-clamp-2 mt-0.5">
+                  {data?.recommendedCase?.reason || "Practice early antithrombotic timing and Bayesian updates."}
+                </span>
               </div>
             </div>
 
             <Link
-              to="/simulation/new/acs-001"
+              to={`/simulation/new/${data?.recommendedCase?.recommendedCaseId || "acs-001"}`}
               className="w-full btn-secondary text-xs py-2 text-center"
             >
               Start Recommended Case →

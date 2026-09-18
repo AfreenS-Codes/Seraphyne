@@ -62,9 +62,13 @@ router.get("/dashboard", requireAuth, async (req: AuthedRequest, res, next) => {
   }
 });
 
-router.get("/ai-companion/health", requireAuth, async (_req, res) => {
-  const available = await checkStudyCompanionHealth();
-  res.json({ available });
+router.get("/ai-companion/health", requireAuth, async (_req, res, next) => {
+  try {
+    const available = await checkStudyCompanionHealth();
+    res.json({ available });
+  } catch (err) {
+    next(err);
+  }
 });
 
 const askSchema = z.object({

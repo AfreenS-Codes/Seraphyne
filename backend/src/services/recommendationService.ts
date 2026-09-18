@@ -51,7 +51,16 @@ const MISTAKE_TO_FOCUS: Record<string, { skill: string; explanation: string }> =
 export async function generateRecommendation(studentId: string) {
   const mistakes = await getMistakesForStudent(studentId);
   const competency = await getCompetency(studentId);
-  const cases = await clinicalEngineClient.listCases();
+  let cases: any[] = [];
+  try {
+    cases = await clinicalEngineClient.listCases();
+  } catch {
+    cases = [];
+  }
+
+  if (!cases || cases.length === 0) {
+    return null;
+  }
 
   const topMistake = mistakes.filter((m) => !m.resolved).sort((a, b) => b.confidence - a.confidence)[0];
 

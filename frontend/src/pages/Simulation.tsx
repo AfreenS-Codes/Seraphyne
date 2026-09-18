@@ -208,6 +208,19 @@ export function Simulation() {
     ],
   };
 
+  if (loading) {
+    return (
+      <AppShell>
+        <div className="flex flex-col items-center justify-center min-h-[50vh] space-y-4">
+          <div className="w-8 h-8 rounded-full border-2 border-violet-500 border-t-transparent animate-spin" />
+          <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
+            Initializing physiological twin & clinical case model…
+          </p>
+        </div>
+      </AppShell>
+    );
+  }
+
   const activeCase = caseData || fallbackCase;
 
   return (
@@ -238,6 +251,21 @@ export function Simulation() {
             </button>
           </div>
         </div>
+
+        {/* Offline Engine Graceful Degradation Notice */}
+        {!session && (
+          <div className="p-3.5 rounded-2xl bg-amber-50/80 dark:bg-amber-950/30 border border-amber-200/80 dark:border-amber-800/50 flex items-center justify-between text-xs text-amber-800 dark:text-amber-200">
+            <div className="flex items-center gap-2">
+              <ShieldAlert className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0" />
+              <span>
+                <strong>Local Simulation Mode:</strong> Clinical engine server is offline. Case simulation, investigations, and decision pathways remain fully interactive using local guidelines.
+              </span>
+            </div>
+            <span className="text-[11px] font-semibold text-amber-700 dark:text-amber-300 hidden sm:inline-block">
+              Standalone Mode
+            </span>
+          </div>
+        )}
 
         {/* Top Row: Digital Twin (Left) + Vitals & Timeline (Right) - Screenshot 5 */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">

@@ -205,6 +205,7 @@ export function AppShell({ children }: AppShellProps) {
               <Search className="w-3.5 h-3.5 text-slate-400" />
               <input
                 type="text"
+                aria-label="Search cases and competencies"
                 placeholder="Search cases, competencies…"
                 className="bg-transparent text-xs w-full focus:outline-none dark:text-slate-100 placeholder:text-slate-400"
               />
